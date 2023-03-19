@@ -4,6 +4,9 @@
   "workspaces": [
     "apps/*"
   ],
+  "nohoist": [
+    "**/*"
+  ],
   "devDependencies": {
     "turbo": "^1.8.3"
   },

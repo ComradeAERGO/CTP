@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "src/api/app.ts",
   "license": "MIT",
+  "author": "ComradeAERGO",
   "scripts": {
     "start": "ts-node src/api/app.ts",
     "dev": "nodemon",
