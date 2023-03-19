@@ -38,7 +38,7 @@ const main = async () => {
             ...acc,
             {
               name: country.name,
-              value: country.code,
+              value: { name: country.name, code: country.code },
             },
           ],
           []
@@ -64,15 +64,17 @@ const main = async () => {
   }
 
   try {
-    const trials = await getOngoingTrials(country);
+    const trials = await getOngoingTrials(country.code);
     console.log(
       chalk.green(
         `Found ${trials.length} clinical trial${setPlural(
           trials
-        )} for country: ${country}`
+        )} for country: ${country.name}`
       )
     );
-    trials.forEach((trial) => console.log(chalk.magenta(trial.name)));
+    trials.forEach((trial) =>
+      console.log(chalk.magenta(`${trial.name}, ${country.name}`))
+    );
   } catch (error) {
     console.error(chalk.red("Error fetching clinical trials:", error.message));
   }

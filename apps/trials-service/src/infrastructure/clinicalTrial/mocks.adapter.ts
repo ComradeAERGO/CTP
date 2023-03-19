@@ -1,7 +1,7 @@
 import ClinicalTrial from "../../domain/clinicalTrial";
 import ClinicalTrialRepository from "./clinicalTrial.repository";
 import clinicalTrialMocks from "./mocks.json";
-import { ClinicalTrialSchema } from "./types";
+import { ClinicalTrialSchema } from "./schemas";
 
 const mockClinicalTrials = clinicalTrialMocks;
 

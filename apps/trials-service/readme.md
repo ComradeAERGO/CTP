@@ -32,8 +32,6 @@ We are using using [turborepo](https://turbo.build/repo/docs) to build the whole
 | `country` | `string` | country to filter trials.         |
 
 
-
-
 ## Installation
 
 Install the project with yarn
