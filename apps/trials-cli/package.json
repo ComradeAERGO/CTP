@@ -5,7 +5,6 @@
   "license": "MIT",
   "author": "@ComradeAERGO",
   "bin": {
-    "@comrade-aergo/trials": "bin/trials.js",
     "trials": "bin/trials.js"
   },
   "dependencies": {

@@ -4,10 +4,6 @@ const dateSchema = z.string().refine((value) => !isNaN(Date.parse(value)), {
   message: "Invalid date format",
 });
 
-const SponsorSchema = z.object({
-  name: z.string(),
-});
-
 const ClinicalTrialSchema = z.object({
   name: z.string(),
   country: z.string(),
@@ -19,4 +15,4 @@ const ClinicalTrialSchema = z.object({
   primary_purpose: z.string(),
 });
 
-export { ClinicalTrialSchema, SponsorSchema };
+export { ClinicalTrialSchema };

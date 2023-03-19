@@ -1,7 +1,7 @@
-import { ClinicalTrialSchema } from "../../utils/zodSchemas";
 import ClinicalTrial from "../../domain/clinicalTrial";
 import ClinicalTrialRepository from "./clinicalTrial.repository";
 import clinicalTrialMocks from "./mocks.json";
+import { ClinicalTrialSchema } from "./types";
 
 const mockClinicalTrials = clinicalTrialMocks;
 

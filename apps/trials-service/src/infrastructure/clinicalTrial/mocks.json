@@ -40,6 +40,16 @@
     "primary_purpose": "treatment"
   },
   {
+    "name": "Supine MRI in Prostate Cancer Patients Receiving Neoadjuvant Therapy",
+    "country": "it",
+    "start_date": "2022-06-15",
+    "end_date": "2030-12-24",
+    "sponsor": "AstraZeneca",
+    "canceled": false,
+    "study_type": "interventional",
+    "primary_purpose": "treatment"
+  },
+  {
     "name": "Neratinib +/- Fulvestrant in HER2+, ER+ Metastatic Breast Cancer",
     "country": "DE",
     "start_date": "2016-03-08",

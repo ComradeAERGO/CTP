@@ -9,16 +9,15 @@ const BASE_URL = "http://localhost:3100/api/ongoing-trials";
 const getOngoingTrials = async (country) => {
   const { default: chalk } = await import("chalk");
 
-  countries.forEach((country) => console.log(chalk.magenta(country.name)));
-
   try {
-    const response = await axios.get(`${BASE_URL}/?country=${country}`);
-    console.log(chalk.green(JSON.stringify(response.data, null, 2)));
-    return response.data;
+    const { data } = await axios.get(`${BASE_URL}/?country=${country}`);
+    return data;
   } catch (error) {
     console.error(chalk.red("Error fetching ongoing trials:", error.message));
   }
 };
+
+const setPlural = (trials) => (trials.length > 1 ? "s" : "");
 
 commander
   .option("-c, --country <country>", "Country to filter clinical trials")
@@ -45,7 +44,6 @@ const main = async () => {
           []
         ),
         validate: function (value) {
-          console.log(value);
           if (value.length) {
             return true;
           } else {
@@ -55,9 +53,8 @@ const main = async () => {
       },
     ];
 
-    const answers = await inquirer.prompt(questions);
-    console.log(answers);
-    return answers.country;
+    const { country } = await inquirer.prompt(questions);
+    return country;
   };
 
   let country = commander.opts().country;
@@ -70,10 +67,12 @@ const main = async () => {
     const trials = await getOngoingTrials(country);
     console.log(
       chalk.green(
-        `Found ${trials.length} clinical trials for country: ${country}`
+        `Found ${trials.length} clinical trial${setPlural(
+          trials
+        )} for country: ${country}`
       )
     );
-    console.log(trials);
+    trials.forEach((trial) => console.log(chalk.magenta(trial.name)));
   } catch (error) {
     console.error(chalk.red("Error fetching clinical trials:", error.message));
   }
