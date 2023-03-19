@@ -4,9 +4,6 @@
   "main": "bin/trials.js",
   "license": "MIT",
   "author": "@ComradeAERGO",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
     "@comrade-aergo/trials": "bin/trials.js",
     "trials": "bin/trials.js"
