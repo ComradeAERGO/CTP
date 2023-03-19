@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/api/app.ts",
     "dev": "nodemon",
-    "build": "tsc",
+    "build:start": "tsc",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
