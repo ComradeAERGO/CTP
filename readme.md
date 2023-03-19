@@ -72,7 +72,7 @@ Two projects are contained under the app folder:
 
 The `trials-service` app was built with the intent of following Hexagonal architecture patterns, in an attempt to try to keep its parts as loosely coupled as possible.
 
-As a whole, the trials-service app is a simple server that exposes a resource of clinical trials. It is composed of 3 main parts:
+As a whole, the trials-service app is a simple server that exposes a resource of clinical trials. It is composed of several parts:
 - `domain` - The domain layer
 - `application` - The application layer, which contains the business logic
 - `infrastructure` - The infrastructure layer, which contains the implementation of the business logic
