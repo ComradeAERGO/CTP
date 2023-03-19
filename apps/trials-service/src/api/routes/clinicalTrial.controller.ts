@@ -2,15 +2,20 @@ import express, { Request, Response } from "express";
 import ClinicalTrialService from "../../application/clinicalTrialService";
 import { MockClinicalTrialRepository } from "../../infrastructure/clinicalTrial/mocks.adapter";
 import redis from "../../config/redis.config";
+import ClinicalTrial from "../../domain/clinicalTrial";
 
 const router = express.Router();
 const clinicalTrialRepository = new MockClinicalTrialRepository();
 const clinicalTrialService = new ClinicalTrialService(clinicalTrialRepository);
 
 const getOngoingTrials = async (req: Request, res: Response) => {
-  const sponsor = req.params.sponsor;
+  type QueryParam = string | undefined;
+  const sponsor = req.query.sponsor as QueryParam;
+  const country = req.query.country as QueryParam;
 
-  const cacheKey = `ongoing_clinical_trials:${sponsor}`;
+  const cacheKey = `ongoing_clinical_trials:${country}${sponsor}`;
+
+  let clinicalTrials: ClinicalTrial[] = [];
 
   try {
     if (!redis.isOpen) {
@@ -18,12 +23,26 @@ const getOngoingTrials = async (req: Request, res: Response) => {
     }
 
     const cachedData = await redis.get(cacheKey);
+
     if (cachedData) {
       return res.json(JSON.parse(cachedData));
     }
-    const clinicalTrials = await clinicalTrialService.getOngoingTrialsBySponsor(
-      sponsor
-    );
+
+    const queryParamIsDefined = (sponsor: QueryParam): sponsor is string => {
+      return sponsor !== undefined;
+    };
+
+    if (queryParamIsDefined(sponsor)) {
+      clinicalTrials = await clinicalTrialService.getOngoingTrialsBySponsor(
+        sponsor
+      );
+    }
+
+    if (queryParamIsDefined(country)) {
+      clinicalTrials = await clinicalTrialService.getOngoingTrialsByCountry(
+        country
+      );
+    }
 
     const ongoingTrials = clinicalTrials.map((trial) => ({
       name: trial.name,
@@ -42,12 +61,6 @@ const getOngoingTrials = async (req: Request, res: Response) => {
   }
 };
 
-const handleMissingSponsor = (req: Request, res: Response) => {
-  res.status(400).json({ message: "Please pass a sponsor to your request" });
-};
-
-router.get("/ongoing-trials", handleMissingSponsor);
-router.get("/ongoing-trials/", handleMissingSponsor);
-router.get("/ongoing-trials/:sponsor", getOngoingTrials);
+router.get("/ongoing-trials", getOngoingTrials);
 
 export default router;

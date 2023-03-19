@@ -1,7 +1,7 @@
 {
   "name": "trials-cli",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "bin/trials.js",
   "license": "MIT",
   "author": "@ComradeAERGO",
   "scripts": {

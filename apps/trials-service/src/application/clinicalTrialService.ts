@@ -1,5 +1,6 @@
-import ClinicalTrial from "../domain/clinicalTrial";
 import ClinicalTrialRepository from "../infrastructure/clinicalTrial/clinicalTrial.repository";
+import isOngoing from "../utils/isOngoing";
+import ClinicalTrial from "../domain/clinicalTrial";
 
 class ClinicalTrialService {
   private clinicalTrialRepository: ClinicalTrialRepository;
@@ -10,15 +11,12 @@ class ClinicalTrialService {
 
   async getOngoingTrialsBySponsor(sponsor: string): Promise<ClinicalTrial[]> {
     const trials = await this.clinicalTrialRepository.getBySponsor(sponsor);
-    const currentDate = new Date();
+    return trials.filter(isOngoing);
+  }
 
-    return trials.filter((trial) => {
-      const isStarted = trial.startDate <= currentDate;
-      const isNotEnded = trial.endDate >= currentDate;
-      const isNotCanceled = !trial.canceled;
-
-      return isStarted && isNotEnded && isNotCanceled;
-    });
+  async getOngoingTrialsByCountry(country: string): Promise<ClinicalTrial[]> {
+    const trials = await this.clinicalTrialRepository.getByCountry(country);
+    return trials.filter(isOngoing);
   }
 }
 

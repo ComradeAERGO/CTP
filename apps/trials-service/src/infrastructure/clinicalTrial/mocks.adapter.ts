@@ -31,6 +31,12 @@ class MockClinicalTrialRepository implements ClinicalTrialRepository {
       (trial) => trial.sponsor.toLowerCase() === sponsor.toLowerCase()
     );
   }
+
+  async getByCountry(country: string): Promise<ClinicalTrial[]> {
+    return mockData.filter(
+      (trial) => trial.country.toUpperCase() === country.toUpperCase()
+    );
+  }
 }
 
 export { MockClinicalTrialRepository };

@@ -1,5 +1,5 @@
 import ClinicalTrialService from "../application/clinicalTrialService";
-import { MockClinicalTrialRepository } from "../infrastructure/clinicalTrial/clinicalTrial.repository";
+import { MockClinicalTrialRepository } from "../infrastructure/clinicalTrial/mocks.adapter";
 
 describe("ClinicalTrialService", () => {
   const clinicalTrialRepository = new MockClinicalTrialRepository();
