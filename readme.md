@@ -4,7 +4,7 @@
 💈Welcome to the CTP Monorepo💈
 
 This repository is composed of two apps :
-- `trials-service` Which is the service that exposes a resource of clinical trials
+- `trials-service` - Which is the service that exposes a resource of clinical trials
 - `trials-cli` - A command line interface that offers a convenient UX to access the clinical trials resources
 
 We are using using [turborepo](https://turbo.build/repo/docs) to build the whole project
