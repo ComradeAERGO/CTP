@@ -83,8 +83,12 @@ For the trials-service app
 - `nodemon` to watch for changes
 - `turborepo` to handle the monorepo
 - `prettier` for code formatting
-- 
+
 ## Architecture
+
+Please find hereafter a diagram of the architecture of the trials-service app
+
+![Architecture Diagram](https://aerg.infura-ipfs.io/ipfs/Qmd7R4ZvQU1jDrti2cXg68cYrKgspN2U26Yk3jw5EVto4f)
 
 At the root of the project lies the monorepo config files as well as the apps folder.
 Two projects are contained under the app folder:
@@ -100,3 +104,5 @@ As a whole, the trials-service app is a simple server that exposes a resource of
 - `api` - The api layer, which contains the express server and the controllers for the exposed routes
 - `tests` - The tests folder, which contains a few unit tests
 - `utils` - The utils folder, which contains shared utility methods
+
+ 
