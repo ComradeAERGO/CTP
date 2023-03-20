@@ -34,15 +34,29 @@ We are using using [turborepo](https://turbo.build/repo/docs) to build the whole
 
 ## Installation
 
-Install the project with yarn
+Clone the repository
 
 ```bash
-  yarn install
+  git clone git@github.com:ComradeAERGO/CTP.git
+  cd CTP
+```
+
+Add the .env file to the root of the `trials-service` project
+Use the password to your redislab instance (or ask the maintainer for a password)
+
+```bash
+  cp .env.example .env
+```
+
+Then install the dependencies for both of the repos, just launch yarn from the root of the project
+
+```bash
+  yarn 
 ```
 
 ## Running Tests
 
-To run tests, run the following command
+To run the tests, run the following command
 
 ```bash
   turbo test
@@ -50,10 +64,17 @@ To run tests, run the following command
 
 ## Limitations
 
-- The service is not yet deployed
+- The service is not yet deployed, this project is therefore agnostic to the deployment environment and the CI pipeline.
+- If we wanted to work into a cloud environment like Google Cloud Platform, we would have several options for the trials-service app:
+  - Deploy directly into Google App Engine to reduce the required amount of manual configuration
+  - Containerize into a docker container through docker-compose and deploy it to GCP Cloud Run
+- Both options would enable us to scale the service horizontally and vertically, and to monitor it through GCP's monitoring and logging tools.
+- Of course, other major cloud providers like AWS and Azure also offers similar capabilities.
+- Regarding the distribution of the trials-cli app, one of the most convenient options would be to bundle it into an npm package, publish it into a private repository, and install it globally using npm on the targeted machines.
 
 ## Tech Stack
 
+For the trials-service app
 - `typescript` as the base language
 - `express` as the main server framework
 - `redis` for caching

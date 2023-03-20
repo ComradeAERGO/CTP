@@ -1,4 +1,4 @@
-import ClinicalTrialService from "../application/clinicalTrialService";
+import ClinicalTrialService from "../application/clinicalTrial.service";
 import { MockClinicalTrialRepository } from "../infrastructure/clinicalTrial/mocks.adapter";
 
 describe("ClinicalTrialService", () => {

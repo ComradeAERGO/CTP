@@ -5,8 +5,8 @@ import { ClinicalTrialSchema } from "./schemas";
 
 const mockClinicalTrials = clinicalTrialMocks;
 
-// Use zod to validate the data
-// Then create a ClinicalTrial instance object
+// Using Zod to validate the data
+// Then proceed to create a ClinicalTrial instance object
 const mockData = mockClinicalTrials.map((trial) => {
   const validatedTrial = ClinicalTrialSchema.parse(trial);
   return new ClinicalTrial(

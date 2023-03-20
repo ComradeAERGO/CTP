@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import ClinicalTrialService from "../../application/clinicalTrialService";
+import ClinicalTrialService from "../../application/clinicalTrial.service";
 import { MockClinicalTrialRepository } from "../../infrastructure/clinicalTrial/mocks.adapter";
 import redis from "../../config/redis.config";
 import ClinicalTrial from "../../domain/clinicalTrial";
