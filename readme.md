@@ -9,29 +9,6 @@ This repository is composed of two apps :
 
 We are using using [turborepo](https://turbo.build/repo/docs) to build the whole project
 
-## API Reference
-
-#### Filter the trials by sponsor
-
-```http
-  GET /api/ongoing-trials?sponsor=${sponsor}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `sponsor` | `string` | sponsor to filter the trials.     |
-
-#### Filter the trials by country
-
-```http
-  GET /api/ongoing-trials?country=${country}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `country` | `string` | country to filter trials.         |
-
-
 ## Installation
 
 Clone the repository
@@ -54,6 +31,18 @@ Then install the dependencies for both of the repos, just launch yarn from the r
   yarn 
 ```
 
+To setup the cli app, go the `trials-cli` folder and link the package
+
+```bash
+  cd apps/trials-cli
+  npm link
+```
+
+You can now use the cli app from anywhere on your machine, simply run `trials`
+
+```bash
+  trials
+```
 ## Running Tests
 
 To run the tests, run the following command
@@ -62,15 +51,12 @@ To run the tests, run the following command
   turbo test
 ```
 
-## Limitations
+## Running the trials-service app
 
-- The service is not yet deployed, this project is therefore agnostic to the deployment environment and the CI pipeline.
-- If we wanted to work into a cloud environment like Google Cloud Platform, we would have several options for the trials-service app:
-  - Deploy directly into Google App Engine to reduce the required amount of manual configuration
-  - Containerize into a docker container through docker-compose and deploy it to GCP Cloud Run
-- Both options would enable us to scale the service horizontally and vertically, and to monitor it through GCP's monitoring and logging tools.
-- Of course, other major cloud providers like AWS and Azure also offers similar capabilities.
-- Regarding the distribution of the trials-cli app, one of the most convenient options would be to bundle it into an npm package, publish it into a private repository, and install it globally using npm on the targeted machines.
+Run the following command and the server will start on `http://localhost:3100`
+```bash
+  turbo dev
+```
 
 ## Tech Stack
 
@@ -105,4 +91,45 @@ As a whole, the trials-service app is a simple server that exposes a resource of
 - `tests` - The tests folder, which contains a few unit tests
 - `utils` - The utils folder, which contains shared utility methods
 
- 
+
+## API Reference
+
+#### Filter the trials by sponsor
+
+```http
+  GET /api/ongoing-trials?sponsor=${sponsor}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `sponsor` | `string` | sponsor to filter the trials.     |
+
+#### Filter the trials by country
+
+```http
+  GET /api/ongoing-trials?country=${country}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `country` | `string` | country to filter trials.         |
+
+
+## Limitations
+
+### Trials-service
+
+#### Deployment
+- The service is not yet deployed, this project is therefore agnostic to the deployment environment and the CI pipeline.
+- If we wanted to work into a cloud environment like Google Cloud Platform, we would have several options for the trials-service app:
+  - Deploy directly into Google App Engine to reduce the required amount of manual configuration
+  - Containerize into a docker container through docker-compose and deploy it to GCP Cloud Run
+- Both options would enable us to scale the service horizontally and vertically, and to monitor it through GCP's monitoring and logging tools.
+- Of course, other major cloud providers like AWS and Azure also offers similar capabilities.
+
+#### Type validation
+- Usage of zod for type validation is currently limited to the infrastructure layer, when parsing data coming in from the JSON mocks. Since the mocks are immutable, it doesn't provide a lot of value. However, when plugged in to external data source, it would actually provide runtime type safety from potentially corruptible data source.
+
+### Trials-cli
+- Regarding the distribution of the trials-cli app, one of the most convenient options would be to bundle it into an npm package, publish it into a private repository, and install it globally using npm on the targeted machines.
+
