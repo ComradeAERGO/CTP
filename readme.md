@@ -130,6 +130,9 @@ As a whole, the trials-service app is a simple server that exposes a resource of
 #### Type validation
 - Usage of zod for type validation is currently limited to the infrastructure layer, when parsing data coming in from the JSON mocks. Since the mocks are immutable, it doesn't provide a lot of value. However, when plugged in to external data source, it would actually provide runtime type safety from potentially corruptible data source.
 
+#### API Documentation
+- If the API grows, it would be nice to plug a Swagger to make the endpoints easy to navigate.
+
 ### Trials-cli
 - Regarding the distribution of the trials-cli app, one of the most convenient options would be to bundle it into an npm package, publish it into a private repository, and install it globally using npm on the targeted machines.
 
