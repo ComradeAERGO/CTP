@@ -31,7 +31,16 @@ Then install the dependencies for both of the repos, just launch yarn from the r
   yarn 
 ```
 
-To setup the cli app, go the `trials-cli` folder and link the package
+Also note that in order to use `turbo` commands, turborepo needs to be installed globally.
+To do so, run
+
+```bash
+   yarn global add turbo
+```
+
+If you don't want to keep globally installed packages on your machine, once you are done, you can remove it by running `which turbo` and then deleting the returned folder.
+
+To setup the cli app, go the `trials-cli` folder and link the package. Note than in some cases, the `npm link`commands requires the use of `sudo`.
 
 ```bash
   cd apps/trials-cli
@@ -43,6 +52,9 @@ You can now use the cli app from anywhere on your machine, simply run `trials`
 ```bash
   trials
 ```
+
+Like for `turbo` the package will be linked globally. You can remove it afterwards by running `which trials` and deleting the returned folder.
+
 ## Running Tests
 
 To run the tests, run the following command
