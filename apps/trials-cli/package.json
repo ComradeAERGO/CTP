@@ -1,11 +1,16 @@
 {
   "name": "trials-cli",
   "version": "1.0.0",
-  "main": "bin/trials.js",
+  "main": "dist/trials.js",
+  "type": "module",
   "license": "MIT",
   "author": "@ComradeAERGO",
   "bin": {
-    "trials": "bin/trials.js"
+    "trials": "dist/trials.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node --loader ts-node/esm src/trials.ts"
   },
   "dependencies": {
     "arg": "^5.0.2",
@@ -15,6 +20,11 @@
     "inquirer": "^9.1.5"
   },
   "devDependencies": {
-    "esm": "^3.2.25"
+    "@types/axios": "^0.14.0",
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^16.11.12",
+    "esm": "^3.2.25",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
   }
 }

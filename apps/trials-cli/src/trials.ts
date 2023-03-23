@@ -1,32 +1,18 @@
 #!/usr/bin/env node
 
-const axios = require("axios");
-const commander = require("commander");
-const countries = require("../countries.json");
+import { program } from "commander";
+import chalk from "chalk";
+import inquirer from "inquirer";
+import countries from "./countries.json" assert { type: "json" };
+import { getOngoingTrials } from "./trials.controller.js";
+import { Country, CountryChoice } from "./country.type";
+import { setPlural } from "./trials.utils.js";
 
-const BASE_URL = "http://localhost:3100/api/ongoing-trials";
-
-const getOngoingTrials = async (country) => {
-  const { default: chalk } = await import("chalk");
-
-  try {
-    const { data } = await axios.get(`${BASE_URL}/?country=${country}`);
-    return data;
-  } catch (error) {
-    console.error(chalk.red("Error fetching ongoing trials:", error.message));
-  }
-};
-
-const setPlural = (trials) => (trials.length > 1 ? "s" : "");
-
-commander
+program
   .option("-c, --country <country>", "Country to filter clinical trials")
   .parse(process.argv);
 
 const main = async () => {
-  const { default: inquirer } = await import("inquirer");
-  const { default: chalk } = await import("chalk");
-
   const askForCountry = async () => {
     const questions = [
       {
@@ -34,7 +20,7 @@ const main = async () => {
         name: "country",
         message: "Please enter the country name:",
         choices: countries.reduce(
-          (acc, country) => [
+          (acc: CountryChoice[], country: Country) => [
             ...acc,
             {
               name: country.name,
@@ -43,7 +29,7 @@ const main = async () => {
           ],
           []
         ),
-        validate: function (value) {
+        validate: function (value: any) {
           if (value.length) {
             return true;
           } else {
@@ -53,11 +39,11 @@ const main = async () => {
       },
     ];
 
-    const { country } = await inquirer.prompt(questions);
+    const { country }: { country: Country } = await inquirer.prompt(questions);
     return country;
   };
 
-  let country = commander.opts().country;
+  let country: Country = program.opts().country;
 
   if (!country) {
     country = await askForCountry();
@@ -72,10 +58,10 @@ const main = async () => {
         )} for country: ${country.name}`
       )
     );
-    trials.forEach((trial) =>
+    trials.forEach((trial: any) =>
       console.log(chalk.magenta(`${trial.name}, ${country.name}`))
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error(chalk.red("Error fetching clinical trials:", error.message));
   }
 };
