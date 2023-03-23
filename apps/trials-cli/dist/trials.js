@@ -22,7 +22,7 @@ const main = async () => {
                         value: { name: country.name, code: country.code },
                     },
                 ], []),
-                validate: function (value) {
+                validate: (value) => {
                     if (value.length) {
                         return true;
                     }

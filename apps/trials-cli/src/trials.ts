@@ -29,7 +29,7 @@ const main = async () => {
           ],
           []
         ),
-        validate: function (value: any) {
+        validate: (value: string) => {
           if (value.length) {
             return true;
           } else {
