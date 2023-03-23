@@ -1,7 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import ClinicalTrialService from "../../application/clinicalTrial.service";
 import { MockClinicalTrialRepository } from "../../infrastructure/clinicalTrial/mocks.adapter";
-import redis from "../../config/redis.config";
 import ClinicalTrial from "../../domain/clinicalTrial";
 import { cacheMiddleware } from "../cache.middleware";
 import { BadRequestError } from "../error.middleware";
