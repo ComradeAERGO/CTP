@@ -1,13 +1,16 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 
 const router = express.Router();
 
-router.get("/health", async (req: Request, res: Response) => {
-  try {
-    res.status(200).json({ message: "OK" });
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+router.get(
+  "/health",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.status(200).json({ message: "OK" });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;

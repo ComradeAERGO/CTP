@@ -19,8 +19,6 @@ const getOngoingTrials = async (
   const sponsor = req.query.sponsor as QueryParam;
   const country = req.query.country as QueryParam;
 
-  const cacheKey = `ongoing_clinical_trials:${country}${sponsor}`;
-
   let clinicalTrials: ClinicalTrial[] = [];
 
   try {
@@ -30,12 +28,6 @@ const getOngoingTrials = async (
           "Country should be expressed as a 2 characters code, for instance 'it' for Italy, 'fr' for France, etc..."
         )
       );
-    }
-
-    const cachedData = await redis.get(cacheKey);
-
-    if (cachedData) {
-      return res.json(JSON.parse(cachedData));
     }
 
     const queryParamIsDefined = (sponsor: QueryParam): sponsor is string => {
