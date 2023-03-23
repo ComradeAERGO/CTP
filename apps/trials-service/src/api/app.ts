@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import clinicalTrialRoutes from "./routes/clinicalTrial.controller";
 import healthRoutes from "./routes/health.controller";
 import redis from "../config/redis.config";
+import { errorMiddleware } from "./error.middleware";
 
 const app = express();
 const port = 3100;
@@ -10,18 +11,15 @@ const port = 3100;
 // Middleware for parsing requests' body
 app.use(bodyParser.json());
 
-// Middleware for error handling
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
 // Redis client error handling
 redis.on("error", (err) => console.error("Redis Client Error", err));
 
 // Routes
 app.use("/api", clinicalTrialRoutes);
 app.use("/api", healthRoutes);
+
+// Middleware for error handling
+app.use(errorMiddleware);
 
 // Listen to incoming connections
 app.listen(port, () => {

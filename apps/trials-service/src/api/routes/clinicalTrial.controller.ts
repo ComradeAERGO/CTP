@@ -1,14 +1,20 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import ClinicalTrialService from "../../application/clinicalTrial.service";
 import { MockClinicalTrialRepository } from "../../infrastructure/clinicalTrial/mocks.adapter";
 import redis from "../../config/redis.config";
 import ClinicalTrial from "../../domain/clinicalTrial";
+import { cacheMiddleware } from "../cache.middleware";
+import { BadRequestError } from "../error.middleware";
 
 const router = express.Router();
 const clinicalTrialRepository = new MockClinicalTrialRepository();
 const clinicalTrialService = new ClinicalTrialService(clinicalTrialRepository);
 
-const getOngoingTrials = async (req: Request, res: Response) => {
+const getOngoingTrials = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   type QueryParam = string | undefined;
   const sponsor = req.query.sponsor as QueryParam;
   const country = req.query.country as QueryParam;
@@ -18,8 +24,12 @@ const getOngoingTrials = async (req: Request, res: Response) => {
   let clinicalTrials: ClinicalTrial[] = [];
 
   try {
-    if (!redis.isOpen) {
-      await redis.connect();
+    if (country?.length !== 2) {
+      return next(
+        new BadRequestError(
+          "Country should be expressed as a 2 characters code, for instance 'it' for Italy, 'fr' for France, etc..."
+        )
+      );
     }
 
     const cachedData = await redis.get(cacheKey);
@@ -51,16 +61,16 @@ const getOngoingTrials = async (req: Request, res: Response) => {
       sponsor: trial.sponsor,
     }));
 
-    await redis.setEx(cacheKey, 3600, JSON.stringify(ongoingTrials));
-    await redis.disconnect();
-
-    res.json(ongoingTrials);
+    return res.json(ongoingTrials);
   } catch (error) {
-    await redis.disconnect();
-    return res.status(500).json({ message: "Internal server error", error });
+    return next(error);
   }
 };
 
-router.get("/ongoing-trials", getOngoingTrials);
+router.get(
+  "/ongoing-trials",
+  cacheMiddleware("ongoing_clinical_trials:"),
+  getOngoingTrials
+);
 
 export default router;
